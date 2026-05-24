@@ -1,20 +1,19 @@
 #!/usr/bin/env bash
-# Toy Stop hook — tests whether plugin-dispatched systemMessage renders to user.
-# 仅输出一个固定的 systemMessage，不做任何其他事。
-# 防 loop：第二次触发（stop_hook_active=true）直接放行。
+# Toy Stop hook v0.0.2 — full-schema systemMessage 测试
+# 之前 v0.0.1 用 bare {"systemMessage":...}，在 v2.1.114+ 会一闪而过被丢弃。
+# 这次用完整 schema (continue + suppressOutput + systemMessage)，应当持久渲染。
+# 参考 issue #50542 的 jphein 自己找到的 workaround。
 
 set -euo pipefail
 
 input=$(cat)
 
-# 如果是因为上一轮 Stop hook 触发的二次 Stop，直接退出
 if echo "$input" | grep -q '"stop_hook_active":[[:space:]]*true'; then
   exit 0
 fi
 
-# 输出 systemMessage（如果你的 Claude Code 版本支持，这一行应当渲染到聊天流里）
 cat << 'EOF'
-{"systemMessage": "📋 [TOY-TEST 成功] 你的 Claude Code 版本支持 plugin-dispatched Stop hook 的 systemMessage 渲染。Concierge v0.3.0 可以用这个通道实现真正的非侵入秘书简报。"}
+{"continue": true, "suppressOutput": false, "systemMessage": "📋 [TOY-TEST 成功 v0.0.2] systemMessage 用完整 schema 渲染成功！Concierge v0.3.0 可以走 Stop hook 自动旁路 (workaround for issue #50542)."}
 EOF
 
 exit 0
