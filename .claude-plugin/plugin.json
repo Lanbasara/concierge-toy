@@ -1,0 +1,8 @@
+{
+  "name": "concierge-toy",
+  "version": "0.0.1",
+  "description": "5 分钟验证 Stop hook 的 systemMessage 字段在你这个版本的 Claude Code 里能不能渲染。验证完即可卸载。",
+  "author": {
+    "name": "Lanbasara"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "description": "toy: 触发 Stop hook 输出一段 systemMessage，看用户能不能在普通聊天流里看到",
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks-handlers/stop.sh\""
+          }
+        ]
+      }
+    ]
+  }
+}
